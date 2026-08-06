@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佳維，生日快樂！🎀</title>
+    <style>
+        :root {
+            --bg-color: #fff0f5;
+            --primary-color: #ffb6c1;
+            --accent-color: #ff69b4;
+            --dark-pink: #c2185b;
+            --text-color: #4a3e3e;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Coquette 視覺風格標題 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #ffe4e1, #ffb6c1);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.4);
+            margin-bottom: 30px;
+            position: relative;
+            border: 2px solid #fff;
+        }
+
+        header::before, header::after {
+            content: "🎀";
+            font-size: 2rem;
+            position: absolute;
+            top: 10px;
+        }
+        header::before { left: 15px; }
+        header::after { right: 15px; }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8b5a2b;
+            font-size: 1.1rem;
+        }
+
+        /* 倒數計時卡片 */
+        .countdown-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--primary-color);
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .time-unit {
+            background: #fff0f5;
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+
+        .time-num {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /*通用區塊樣式*/
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.2);
+            border: 1px solid #ffdae0;
+        }
+
+        .section-title {
+            color: var(--dark-pink);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px dashed var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        /* 男友成就勳章 */
+        .medals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .medal-item {
+            background: #fff5f7;
+            border: 1px solid #ffccd5;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .medal-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .medal-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .medal-title {
+            font-weight: bold;
+            color: var(--dark-pink);
+            font-size: 0.95rem;
+        }
+
+        /* 10個愛你的理由卡片牆 */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .reason-card {
+            background: #fff;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            height: 120px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .reason-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 10px;
+        }
+
+        .reason-card.flipped .reason-inner {
+            transform: rotateY(180deg);
+        }
+
+        .reason-front, .reason-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .reason-front {
+            background-color: #ffe6eb;
+            color: var(--dark-pink);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .reason-back {
+            background-color: #ffffff;
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            border: 1px solid var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        /* 許願吹蠟燭遊戲 */
+        .cake-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .cake-icon {
+            font-size: 4rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .cake-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .wish-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+            margin-top: 15px;
+        }
+
+        .wish-btn:hover {
+            background: var(--dark-pink);
+        }
+
+        /* 隨機抽卡券 */
+        .coupon-box {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .coupon-display {
+            background: #fff0f5;
+            border: 2px dashed var(--accent-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-pink);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 深情情書 */
+        .letter-content {
+            background: #fffaf0;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.95rem;
+            white-space: pre-line;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>佳維 Birthday Happy!</h1>
+        <p class="subtitle">給最特別的你，專屬於你的 Coquette 浪漫小屋 💖</p>
+    </header>
+
+    <!-- 倒數計時器 -->
+    <div class="countdown-box">
+        <h3>🎂 佳維的專屬生日倒數 🎂</h3>
+        <div class="timer">
+            <div class="time-unit"><div class="time-num" id="days">00</div><div class="time-label">天</div></div>
+            <div class="time-unit"><div class="time-num" id="hours">00</div><div class="time-label">時</div></div>
+            <div class="time-unit"><div class="time-num" id="mins">00</div><div class="time-label">分</div></div>
+            <div class="time-unit"><div class="time-num" id="secs">00</div><div class="time-label">秒</div></div>
+        </div>
+    </div>
+
+    <!-- 男友成就勳章牆 -->
+    <div class="section-card">
+        <div class="section-title">🎖️ 最佳男友成就頒獎典禮</div>
+        <div class="medals-grid">
+            <div class="medal-item"><div class="medal-icon">👑</div><div class="medal-title">滿分貼心獎</div></div>
+            <div class="medal-item"><div class="medal-icon">🧸</div><div class="medal-title">最佳抱抱熊</div></div>
+            <div class="medal-item"><div class="medal-icon">🚗</div><div class="medal-title">專屬御用司機</div></div>
+            <div class="medal-item"><div class="medal-icon">🍕</div><div class="medal-title">美食雷達大師</div></div>
+        </div>
+    </div>
+
+    <!-- 10個愛你的理由卡片牆 -->
+    <div class="section-card">
+        <div class="section-title">💌 愛佳維的 10 個理由（點擊翻卡）</div>
+        <div class="reasons-grid">
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #1</div><div class="reason-back">總是耐心地聽我說話，給我滿滿的安全感。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #2</div><div class="reason-back">笑起來的樣子超級可愛，每次看都心動。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #3</div><div class="reason-back">每次吃到好吃的東西，第一個總會想到我。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #4</div><div class="reason-back">摸摸頭和擁抱的時候，總是特別溫柔。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #5</div><div class="reason-back">永遠站在我這邊，是我最強大的後盾。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #6</div><div class="reason-back">記住我所有的小習慣和喜好。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #7</div><div class="reason-back">和你在一起的時候，連無聊的事都變得有趣。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #8</div><div class="reason-back">非常負責任且認真努力的樣子帥爆了！</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #9</div><div class="reason-back">脾氣超好，總是默默包容我的小脾氣。</div></div></div>
+            <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">Reason #10</div><div class="reason-back">因為你就是佳維，獨一無二的佳維！</div></div></div>
+        </div>
+    </div>
+
+    <!-- 許願遊戲區 -->
+    <div class="section-card">
+        <div class="section-title">🎂 生日許願池</div>
+        <div class="cake-container">
+            <div class="cake-icon" id="cake">🎂</div>
+            <p id="wish-status">點擊下面的按鈕吹熄蠟燭許願吧！</p>
+            <button class="wish-btn" onclick="blowCandle()">🕯️ 吹熄蠟燭許願</button>
+        </div>
+    </div>
+
+    <!-- 戀愛特權兌換券 -->
+    <div class="section-card">
+        <div class="section-title">🎟️ 佳維專屬戀愛特權抽卡</div>
+        <div class="coupon-box">
+            <div class="coupon-display" id="coupon-text">點擊下方按鈕抽取今天的特權獎項！</div>
+            <button class="wish-btn" onclick="drawCoupon()">🎁 抽取專屬特權券</button>
+        </div>
+    </div>
+
+    <!-- 深情告白信件 -->
+    <div class="section-card">
+        <div class="section-title">✉️ 給佳維的一封信</div>
+        <div class="letter-content">
+親愛的佳維：
+
+生日快樂！🎉
+非常感謝你出現在我的生命裡，帶來了無數的溫暖與笑容。
+希望未來的每一個生日，我都能陪在你的身邊，一起探索更多好玩的地方，吃更多美食。
+
+祝你新的一歲所有的願望都能實現，天天開心！
+永遠愛你的我 💖
+        </div>
+    </div>
+
+    <footer>
+        Made with ❤️ for 佳維 | Birthday Special Project
+    </footer>
+
+    <script>
+        // 生日倒數邏輯 (預設設為今年或明年的目標日期，可自訂)
+        function updateTimer() {
+            const now = new Date();
+            let target = new Date(now.getFullYear(), 11, 31); // 預設目標時間，可調整
+            if (now > target) target.setFullYear(now.getFullYear() + 1);
+
+            const diff = target - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('mins').innerText = String(m).padStart(2, '0');
+            document.getElementById('secs').innerText = String(s).padStart(2, '0');
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 吹蠟燭互動
+        function blowCandle() {
+            document.getElementById('cake').innerText = '🍰';
+            document.getElementById('wish-status').innerText = '✨ 願望已收到！佳維的所有願望都會實現！✨';
+        }
+
+        // 隨機抽卡邏輯
+        const coupons = [
+            "🎟️ 無條件抱抱券（隨時可用，無限次數）",
+            "🎟️ 生日大餐點菜權（想吃什麼我都陪你）",
+            "🎟️ 免做家事免脾氣券 1 天",
+            "🎟️ 宵夜專屬外送點心券",
+            "🎟️ 陪你打 Game / 睇電視放鬆整天券",
+            "🎟️ 神秘小禮物兌換券"
+        ];
+
+        function drawCoupon() {
+            const randomIndex = Math.floor(Math.random() * coupons.length);
+            document.getElementById('coupon-text').innerText = coupons[randomIndex];
+        }
+    </script>
+</body>
+</html>
